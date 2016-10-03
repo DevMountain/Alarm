@@ -9,12 +9,12 @@
 import UIKit
 
 protocol SwitchTableViewCellDelegate: class {
-	func switchCellSwitchValueChanged(cell: SwitchTableViewCell)
+	func switchCellSwitchValueChanged(_ cell: SwitchTableViewCell)
 }
 
 class SwitchTableViewCell: UITableViewCell {
 	
-    @IBAction func switchValueChanged(sender: AnyObject) {
+    @IBAction func switchValueChanged(_ sender: AnyObject) {
         delegate?.switchCellSwitchValueChanged(self)
     }
     
@@ -27,7 +27,7 @@ class SwitchTableViewCell: UITableViewCell {
 			guard let alarm = alarm else { return }
 			timeLabel.text = alarm.fireTimeAsString
 			nameLabel.text = alarm.name
-			alarmSwitch.on = alarm.enabled
+			alarmSwitch.isOn = alarm.enabled
 		}
 	}
 	

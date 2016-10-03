@@ -14,7 +14,7 @@ class Alarm: NSObject, NSCoding {
     private let EnabledKey = "enabled"
     private let UUIDKey = "UUID"
 	
-    init(fireTimeFromMidnight: NSTimeInterval, name: String, enabled: Bool = true, uuid: String = NSUUID().UUIDString) {
+    init(fireTimeFromMidnight: TimeInterval, name: String, enabled: Bool = true, uuid: String = UUID().uuidString) {
         self.fireTimeFromMidnight = fireTimeFromMidnight
         self.name = name
         self.enabled = enabled
@@ -24,10 +24,10 @@ class Alarm: NSObject, NSCoding {
 	// MARK: - NSCoding
     
     required init?(coder aDecoder: NSCoder) {
-        guard let fireTimeFromMidnight = aDecoder.decodeObjectForKey(FireTimeFromMidnightKey) as? NSTimeInterval,
-            name = aDecoder.decodeObjectForKey(NameKey) as? String,
-            enabled = aDecoder.decodeObjectForKey(EnabledKey) as? Bool,
-            uuid = aDecoder.decodeObjectForKey(UUIDKey) as? String else {return nil}
+        guard let fireTimeFromMidnight = aDecoder.decodeObject(forKey: FireTimeFromMidnightKey) as? TimeInterval,
+            let name = aDecoder.decodeObject(forKey: NameKey) as? String,
+            let enabled = aDecoder.decodeObject(forKey: EnabledKey) as? Bool,
+            let uuid = aDecoder.decodeObject(forKey: UUIDKey) as? String else {return nil}
 		
         self.fireTimeFromMidnight = fireTimeFromMidnight
         self.name = name
@@ -35,23 +35,23 @@ class Alarm: NSObject, NSCoding {
         self.uuid = uuid
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(fireTimeFromMidnight, forKey: FireTimeFromMidnightKey)
-        aCoder.encodeObject(name, forKey: NameKey)
-        aCoder.encodeObject(enabled, forKey: EnabledKey)
-        aCoder.encodeObject(uuid, forKey: UUIDKey)
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(fireTimeFromMidnight, forKey: FireTimeFromMidnightKey)
+        aCoder.encode(name, forKey: NameKey)
+        aCoder.encode(enabled, forKey: EnabledKey)
+        aCoder.encode(uuid, forKey: UUIDKey)
     }
  
 	// MARK: Properties
 	
-	var fireTimeFromMidnight: NSTimeInterval
+	var fireTimeFromMidnight: TimeInterval
 	var name: String
 	var enabled: Bool
 	let uuid: String
 	
-	var fireDate: NSDate? {
+	var fireDate: Date? {
 		guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else {return nil}
-		let fireDateFromThisMorning = NSDate(timeInterval: fireTimeFromMidnight, sinceDate: thisMorningAtMidnight)
+		let fireDateFromThisMorning = Date(timeInterval: fireTimeFromMidnight, since: thisMorningAtMidnight as Date)
 		return fireDateFromThisMorning
 	}
 	
