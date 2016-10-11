@@ -9,38 +9,37 @@
 import Foundation
 
 class Alarm: NSObject, NSCoding {
-    private let FireTimeFromMidnightKey = "fireTimeFromMidnight"
-    private let NameKey = "name"
-    private let EnabledKey = "enabled"
-    private let UUIDKey = "UUID"
+	private let FireTimeFromMidnightKey = "fireTimeFromMidnight"
+	private let NameKey = "name"
+	private let EnabledKey = "enabled"
+	private let UUIDKey = "UUID"
 	
-    init(fireTimeFromMidnight: TimeInterval, name: String, enabled: Bool = true, uuid: String = UUID().uuidString) {
-        self.fireTimeFromMidnight = fireTimeFromMidnight
-        self.name = name
-        self.enabled = enabled
-        self.uuid = uuid
-    }
+	init(fireTimeFromMidnight: TimeInterval, name: String, enabled: Bool = true, uuid: String = UUID().uuidString) {
+		self.fireTimeFromMidnight = fireTimeFromMidnight
+		self.name = name
+		self.enabled = enabled
+		self.uuid = uuid
+	}
 	
 	// MARK: - NSCoding
-    
-    required init?(coder aDecoder: NSCoder) {
-        guard let fireTimeFromMidnight = aDecoder.decodeObject(forKey: FireTimeFromMidnightKey) as? TimeInterval,
-            let name = aDecoder.decodeObject(forKey: NameKey) as? String,
-            let enabled = aDecoder.decodeObject(forKey: EnabledKey) as? Bool,
-            let uuid = aDecoder.decodeObject(forKey: UUIDKey) as? String else {return nil}
+	
+	required init?(coder aDecoder: NSCoder) {
+
+		guard let name = aDecoder.decodeObject(forKey: NameKey) as? String,
+			let uuid = aDecoder.decodeObject(forKey: UUIDKey) as? String else { return nil }
 		
-        self.fireTimeFromMidnight = fireTimeFromMidnight
-        self.name = name
-        self.enabled = enabled
-        self.uuid = uuid
-    }
-    
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(fireTimeFromMidnight, forKey: FireTimeFromMidnightKey)
-        aCoder.encode(name, forKey: NameKey)
-        aCoder.encode(enabled, forKey: EnabledKey)
-        aCoder.encode(uuid, forKey: UUIDKey)
-    }
+		self.fireTimeFromMidnight = TimeInterval(aDecoder.decodeDouble(forKey: FireTimeFromMidnightKey))
+		self.name = name
+		self.enabled = aDecoder.decodeBool(forKey: EnabledKey)
+		self.uuid = uuid
+	}
+	
+	func encode(with aCoder: NSCoder) {
+		aCoder.encode(fireTimeFromMidnight, forKey: FireTimeFromMidnightKey)
+		aCoder.encode(name, forKey: NameKey)
+		aCoder.encode(enabled, forKey: EnabledKey)
+		aCoder.encode(uuid, forKey: UUIDKey)
+	}
  
 	// MARK: Properties
 	
@@ -75,5 +74,5 @@ class Alarm: NSObject, NSCoding {
 // MARK: - Equatable
 
 func ==(lhs: Alarm, rhs: Alarm) -> Bool {
-    return lhs.uuid == rhs.uuid
+	return lhs.uuid == rhs.uuid
 }
