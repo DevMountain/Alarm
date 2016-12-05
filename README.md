@@ -102,7 +102,7 @@ There are many ways to add mock data to model object controllers. We will do so 
 
 1. Create a `mockAlarms:[Alarm]` computed property that holds a number of staged `Alarm` objects
     * Initialize a small number of `Alarm` objects to return with varying properties
-3. When you want mock data, set self.alarms to self.mockAlarms in the initializer. Remove it when you no longer want mock data.
+2. When you want mock data, set self.alarms to self.mockAlarms in the initializer. Remove it when you no longer want mock data.
     * note: If you have not added an initializer, add one.
 
 ### Wire up the Alarm List Table View and implement the 'updateWith' pattern on the `SwitchTableViewCell` class.
