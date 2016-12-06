@@ -10,15 +10,15 @@ import Foundation
 
 enum DateHelper {
 	
-	static var thisMorningAtMidnight: NSDate? {
-		let calendar = NSCalendar.currentCalendar()
-		let now = NSDate()
-		return calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: now, options: [])
+	static var thisMorningAtMidnight: Date? {
+		let calendar = Calendar.current
+		let now = Date()
+		return (calendar as NSCalendar).date(bySettingHour: 0, minute: 0, second: 0, of: now, options: [])
 	}
 	
-	static var tomorrowMorningAtMidnight: NSDate? {
-		let calendar = NSCalendar.currentCalendar()
+	static var tomorrowMorningAtMidnight: Date? {
+		let calendar = Calendar.current
 		guard let thisMorningAtMidnight = thisMorningAtMidnight else { return nil }
-		return calendar.dateByAddingUnit(.Day, value: 1, toDate: thisMorningAtMidnight, options: [])
+		return (calendar as NSCalendar).date(byAdding: .day, value: 1, to: thisMorningAtMidnight, options: [])
 	}
 }

@@ -13,19 +13,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		
-		let userNotificationSettings = UIUserNotificationSettings(forTypes: [.Badge, .Sound, .Alert], categories: nil)
+		let userNotificationSettings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
 		application.registerUserNotificationSettings(userNotificationSettings)
 		
         return true
     }
     
-    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
-        let alert = UIAlertController(title: "Time's up", message: nil, preferredStyle: .Alert)
-        let action = UIAlertAction(title: "Dismiss", style: .Cancel, handler: nil)
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        let alert = UIAlertController(title: "Time's up", message: nil, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
         alert.addAction(action)
-        window?.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
 }
 
