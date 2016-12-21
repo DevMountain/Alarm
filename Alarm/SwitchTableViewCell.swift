@@ -9,15 +9,15 @@
 import UIKit
 
 protocol SwitchTableViewCellDelegate: class {
-	func switchCellSwitchValueChanged(_ cell: SwitchTableViewCell)
+	func switchCellSwitchValueChanged(cell: SwitchTableViewCell)
 }
 
 class SwitchTableViewCell: UITableViewCell {
 	
-    @IBAction func switchValueChanged(_ sender: AnyObject) {
-        delegate?.switchCellSwitchValueChanged(self)
-    }
-    
+	@IBAction func switchValueChanged(_ sender: AnyObject) {
+		delegate?.switchCellSwitchValueChanged(cell: self)
+	}
+	
 	// MARK: Properties
 	
 	weak var delegate: SwitchTableViewCellDelegate?

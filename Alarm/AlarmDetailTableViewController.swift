@@ -22,24 +22,24 @@ class AlarmDetailTableViewController: UITableViewController, AlarmScheduler {
 			let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else { return }
 		let timeIntervalSinceMidnight = alarmDatePicker.date.timeIntervalSince(thisMorningAtMidnight as Date)
 		if let alarm = alarm {
-			AlarmController.sharedInstance.updateAlarm(alarm, fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
-			cancelLocalNotification(alarm)
-			scheduleLocalNotification(alarm)
+			AlarmController.shared.update(alarm: alarm, fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
+			cancelLocalNotification(for: alarm)
+			scheduleLocalNotification(for: alarm)
 		} else {
-			let alarm = AlarmController.sharedInstance.addAlarm(timeIntervalSinceMidnight, name: title)
+			let alarm = AlarmController.shared.addAlarm(fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
 			self.alarm = alarm
-			scheduleLocalNotification(alarm)
+			scheduleLocalNotification(for: alarm)
 		}
 		let _ = navigationController?.popViewController(animated: true)
 	}
 	
 	@IBAction func enableButtonTapped(_ sender: AnyObject) {
 		guard let alarm = alarm else {return}
-		AlarmController.sharedInstance.toggleEnabled(alarm)
+		AlarmController.shared.toggleEnabled(for: alarm)
 		if alarm.enabled {
-			scheduleLocalNotification(alarm)
+			scheduleLocalNotification(for: alarm)
 		} else {
-			cancelLocalNotification(alarm)
+			cancelLocalNotification(for: alarm)
 		}
 		updateViews()
 	}
@@ -48,7 +48,8 @@ class AlarmDetailTableViewController: UITableViewController, AlarmScheduler {
 	
 	private func updateViews() {
 		guard let alarm = alarm,
-			let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else {
+			let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight,
+			isViewLoaded else {
 				enableButton.isHidden = true
 				return
 		}
