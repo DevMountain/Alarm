@@ -65,15 +65,12 @@
 			isa = PBXGroup;
 			children = (
 				1A0FB77E1CDD4F07006808D9 /* AppDelegate.swift */,
-				1A0FB7821CDD4F07006808D9 /* Main.storyboard */,
-				1A0FB7C21CE2CD6C006808D9 /* ViewControllers */,
+				1A0FB7BE1CE19229006808D9 /* DateHelper.swift */,
 				1A0FB7C51CE2CD93006808D9 /* Models */,
 				1A0FB7C31CE2CD7F006808D9 /* Controllers */,
+				1A0FB7C21CE2CD6C006808D9 /* ViewControllers */,
 				1A0FB7C41CE2CD84006808D9 /* Views */,
-				1A0FB7BE1CE19229006808D9 /* DateHelper.swift */,
-				1A0FB7851CDD4F07006808D9 /* Assets.xcassets */,
-				1A0FB7871CDD4F07006808D9 /* LaunchScreen.storyboard */,
-				1A0FB78A1CDD4F07006808D9 /* Info.plist */,
+				8C4F53141E2FF4270047129F /* Resources */,
 			);
 			path = Alarm;
 			sourceTree = "<group>";
@@ -111,6 +108,17 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		8C4F53141E2FF4270047129F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1A0FB7821CDD4F07006808D9 /* Main.storyboard */,
+				1A0FB7851CDD4F07006808D9 /* Assets.xcassets */,
+				1A0FB7871CDD4F07006808D9 /* LaunchScreen.storyboard */,
+				1A0FB78A1CDD4F07006808D9 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +151,8 @@
 				TargetAttributes = {
 					1A0FB77A1CDD4F07006808D9 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = V9YMV3Q9VL;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -301,10 +311,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = V9YMV3Q9VL;
 				INFOPLIST_FILE = Alarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.devmountain.Alarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -312,10 +325,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = V9YMV3Q9VL;
 				INFOPLIST_FILE = Alarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.devmountain.Alarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -338,6 +354,7 @@
 				1A0FB78F1CDD4F07006808D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

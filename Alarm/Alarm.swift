@@ -9,20 +9,51 @@
 import Foundation
 
 class Alarm: NSObject, NSCoding {
-    private let kFireTimeFromMidnight = "fireTimeFromMidnight"
-    private let kName = "name"
-    private let kEnabled = "enabled"
-    private let kUUID = "UUID"
+    private let FireTimeFromMidnightKey = "fireTimeFromMidnight"
+    private let NameKey = "name"
+    private let EnabledKey = "enabled"
+    private let UUIDKey = "UUID"
     
-    var fireTimeFromMidnight: NSTimeInterval
+    init(fireTimeFromMidnight: TimeInterval, name: String, enabled: Bool = true, uuid: String = UUID().uuidString) {
+        self.fireTimeFromMidnight = fireTimeFromMidnight
+        self.name = name
+        self.enabled = enabled
+        self.uuid = uuid
+    }
+    
+    // MARK: - NSCoding
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        guard let name = aDecoder.decodeObject(forKey: NameKey) as? String,
+            let uuid = aDecoder.decodeObject(forKey: UUIDKey) as? String else { return nil }
+        
+        self.fireTimeFromMidnight = TimeInterval(aDecoder.decodeDouble(forKey: FireTimeFromMidnightKey))
+        self.name = name
+        self.enabled = aDecoder.decodeBool(forKey: EnabledKey)
+        self.uuid = uuid
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(fireTimeFromMidnight, forKey: FireTimeFromMidnightKey)
+        aCoder.encode(name, forKey: NameKey)
+        aCoder.encode(enabled, forKey: EnabledKey)
+        aCoder.encode(uuid, forKey: UUIDKey)
+    }
+    
+    // MARK: Properties
+    
+    var fireTimeFromMidnight: TimeInterval
     var name: String
     var enabled: Bool
     let uuid: String
     
-    var fireDate: NSDate? {
-        guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else {return nil}
-        let fireDateFromThisMorning = NSDate(timeInterval: fireTimeFromMidnight, sinceDate: thisMorningAtMidnight)
-            return fireDateFromThisMorning
+    var fireDate: Date? {
+        guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else { return nil }
+        let fireTimeInMinutes = Int(fireTimeFromMidnight / 60)
+        let fireTimeInSeconds = TimeInterval(fireTimeInMinutes * 60)
+        let fireDateFromThisMorning = Date(timeInterval: fireTimeInSeconds, since: thisMorningAtMidnight)
+        return fireDateFromThisMorning
     }
     
     var fireTimeAsString: String {
@@ -40,33 +71,9 @@ class Alarm: NSObject, NSCoding {
             return String(format: "%2d:%02d AM", arguments: [hours, minutes])
         }
     }
-    
-    init(fireTimeFromMidnight: NSTimeInterval, name: String, enabled: Bool = true, uuid: String = NSUUID().UUIDString) {
-        self.fireTimeFromMidnight = fireTimeFromMidnight
-        self.name = name
-        self.enabled = enabled
-        self.uuid = uuid
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        guard let fireTimeFromMidnight = aDecoder.decodeObjectForKey(kFireTimeFromMidnight) as? NSTimeInterval,
-            name = aDecoder.decodeObjectForKey(kName) as? String,
-            enabled = aDecoder.decodeObjectForKey(kEnabled) as? Bool,
-            uuid = aDecoder.decodeObjectForKey(kUUID) as? String else {return nil}
-        self.fireTimeFromMidnight = fireTimeFromMidnight
-        self.name = name
-        self.enabled = enabled
-        self.uuid = uuid
-    }
-    
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(fireTimeFromMidnight, forKey: kFireTimeFromMidnight)
-        aCoder.encodeObject(name, forKey: kName)
-        aCoder.encodeObject(enabled, forKey: kEnabled)
-        aCoder.encodeObject(uuid, forKey: kUUID)
-    }
-    
 }
+
+// MARK: - Equatable
 
 func ==(lhs: Alarm, rhs: Alarm) -> Bool {
     return lhs.uuid == rhs.uuid
