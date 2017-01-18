@@ -14,7 +14,9 @@ protocol SwitchTableViewCellDelegate: class {
 
 class SwitchTableViewCell: UITableViewCell {
 	
-	@IBAction func switchValueChanged(_ sender: AnyObject) {
+    // MARK: Actions
+    
+	@IBAction func switchValueChanged(_ sender: Any) {
 		delegate?.switchCellSwitchValueChanged(cell: self)
 	}
 	

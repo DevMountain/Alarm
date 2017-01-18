@@ -24,7 +24,7 @@ class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDe
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as? SwitchTableViewCell ?? SwitchTableViewCell()
         
-		cell.alarm = AlarmController.shared.alarms[(indexPath as NSIndexPath).row]
+		cell.alarm = AlarmController.shared.alarms[indexPath.row]
         cell.delegate = self
         
         return cell
@@ -32,21 +32,23 @@ class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDe
 	
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let alarm = AlarmController.shared.alarms[(indexPath as NSIndexPath).row]
+            let alarm = AlarmController.shared.alarms[indexPath.row]
 			AlarmController.shared.delete(alarm: alarm)
-            cancelLocalNotification(for: alarm)
+            cancelUserNotifications(for: alarm)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
+    // MARK: SwitchTableViewCellDelegate
+    
     func switchCellSwitchValueChanged(cell: SwitchTableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else {return}
-        let alarm = AlarmController.shared.alarms[(indexPath as NSIndexPath).row]
+        let alarm = AlarmController.shared.alarms[indexPath.row]
 		AlarmController.shared.toggleEnabled(for: alarm)
         if alarm.enabled {
-            scheduleLocalNotification(for: alarm)
+            scheduleUserNotifications(for: alarm)
         } else {
-            cancelLocalNotification(for: alarm)
+            cancelUserNotifications(for: alarm)
         }
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
@@ -57,8 +59,7 @@ class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDe
         if segue.identifier == "toAlarmDetail" {
 			guard let detailVC = segue.destination as? AlarmDetailTableViewController,
 			let indexPath = tableView.indexPathForSelectedRow else { return }
-            detailVC.alarm = AlarmController.shared.alarms[(indexPath as NSIndexPath).row]
+            detailVC.alarm = AlarmController.shared.alarms[indexPath.row]
         }
     }
-    
 }

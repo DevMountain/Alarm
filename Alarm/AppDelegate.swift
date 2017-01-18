@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,17 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		
-		let userNotificationSettings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
-		application.registerUserNotificationSettings(userNotificationSettings)
-		
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (accepted, error) in
+            if !accepted {
+                print("Notification access has been denied.")
+            }
+        }
         return true
-    }
-    
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        let alert = UIAlertController(title: "Time's up", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
-        alert.addAction(action)
-        window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
 }
 
