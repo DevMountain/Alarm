@@ -8,27 +8,17 @@
 
 import Foundation
 
-class DateHelper {
-    static var calendar: NSCalendar {
-        return NSCalendar.currentCalendar()
-    }
-    
-    static var thisMorningAtMidnight: NSDate? {
-        let components = calendar.components([.Month, .Day, .Year], fromDate: NSDate())
-        components.second = 0
-        components.minute = 0
-        components.hour = 0
-        components.nanosecond = 0
-        return calendar.dateFromComponents(components)
-    }
-    
-    static var tomorrowMorningAtMidnight: NSDate? {
-        let components = calendar.components([.Month, .Day, .Year], fromDate: NSDate())
-        components.second = 0
-        components.minute = 0
-        components.hour = 0
-        components.nanosecond = 0
-        guard let date = calendar.dateFromComponents(components) else {return nil}
-        return NSDate(timeInterval: 24*60*60, sinceDate: date)
-    }
+enum DateHelper {
+	
+	static var thisMorningAtMidnight: Date? {
+		let calendar = Calendar.current
+		let now = Date()
+        return calendar.date(bySettingHour: 0, minute: 0, second: 0, of: now)
+	}
+	
+	static var tomorrowMorningAtMidnight: Date? {
+		let calendar = Calendar.current
+		guard let thisMorningAtMidnight = thisMorningAtMidnight else { return nil }
+        return calendar.date(byAdding: .day, value: 1, to: thisMorningAtMidnight)
+	}
 }

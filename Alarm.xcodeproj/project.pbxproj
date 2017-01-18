@@ -11,7 +11,8 @@
 		1A0FB7841CDD4F07006808D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A0FB7821CDD4F07006808D9 /* Main.storyboard */; };
 		1A0FB7861CDD4F07006808D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0FB7851CDD4F07006808D9 /* Assets.xcassets */; };
 		1A0FB7891CDD4F07006808D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A0FB7871CDD4F07006808D9 /* LaunchScreen.storyboard */; };
-		1A0FB7BF1CE19229006808D9 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0FB7BE1CE19229006808D9 /* DateHelper.swift */; };
+		8C4F53101E2FEA4C0047129F /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F530F1E2FEA4C0047129F /* DateHelper.swift */; };
+		8C4F53121E2FEA780047129F /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F53111E2FEA780047129F /* Alarm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,7 +22,8 @@
 		1A0FB7851CDD4F07006808D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A0FB7881CDD4F07006808D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A0FB78A1CDD4F07006808D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1A0FB7BE1CE19229006808D9 /* DateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		8C4F530F1E2FEA4C0047129F /* DateHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		8C4F53111E2FEA780047129F /* Alarm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +58,8 @@
 			children = (
 				1A0FB77E1CDD4F07006808D9 /* AppDelegate.swift */,
 				1A0FB7821CDD4F07006808D9 /* Main.storyboard */,
-				1A0FB7BE1CE19229006808D9 /* DateHelper.swift */,
+				8C4F530F1E2FEA4C0047129F /* DateHelper.swift */,
+				8C4F53111E2FEA780047129F /* Alarm.swift */,
 				1A0FB7851CDD4F07006808D9 /* Assets.xcassets */,
 				1A0FB7871CDD4F07006808D9 /* LaunchScreen.storyboard */,
 				1A0FB78A1CDD4F07006808D9 /* Info.plist */,
@@ -96,6 +99,8 @@
 				TargetAttributes = {
 					1A0FB77A1CDD4F07006808D9 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = V9YMV3Q9VL;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -136,7 +141,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A0FB77F1CDD4F07006808D9 /* AppDelegate.swift in Sources */,
-				1A0FB7BF1CE19229006808D9 /* DateHelper.swift in Sources */,
+				8C4F53101E2FEA4C0047129F /* DateHelper.swift in Sources */,
+				8C4F53121E2FEA780047129F /* Alarm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,10 +255,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = V9YMV3Q9VL;
 				INFOPLIST_FILE = Alarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.devmountain.Alarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -260,10 +269,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = V9YMV3Q9VL;
 				INFOPLIST_FILE = Alarm/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.devmountain.Alarm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
