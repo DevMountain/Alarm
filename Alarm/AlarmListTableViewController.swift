@@ -10,57 +10,50 @@ import UIKit
 
 class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDelegate {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-    
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
     
-    // MARK: - Table view data source
+    // MARK: UITableViewDataSource
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AlarmController.sharedInstance.alarms.count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return AlarmController.shared.alarms.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("alarmCell", forIndexPath: indexPath) as? SwitchTableViewCell ?? SwitchTableViewCell()
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "alarmCell", for: indexPath) as? SwitchTableViewCell ?? SwitchTableViewCell()
         
-        let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
-        cell.updateWithAlarm(alarm)
+        cell.alarm = AlarmController.shared.alarms[indexPath.row]
         cell.delegate = self
         
         return cell
     }
     
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
-            AlarmController.sharedInstance.deleteAlarm(alarm)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let alarm = AlarmController.shared.alarms[indexPath.row]
+            AlarmController.shared.delete(alarm: alarm)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
+    
+    // MARK: SwitchTableViewCellDelegate
     
     func switchCellSwitchValueChanged(cell: SwitchTableViewCell) {
-        guard let indexPath = tableView.indexPathForCell(cell) else {return}
-        let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
-        AlarmController.sharedInstance.toggleEnabled(alarm)
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let alarm = AlarmController.shared.alarms[indexPath.row]
+        AlarmController.shared.toggleEnabled(for: alarm)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
-    // MARK: - Navigation
+    // MARK: Navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let detailVC = segue.destinationViewController as? AlarmDetailTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAlarmDetail" {
-            guard let indexPath = tableView.indexPathForSelectedRow else {return}
-            let alarm = AlarmController.sharedInstance.alarms[indexPath.row]
-            detailVC?.alarm = alarm
+            guard let detailVC = segue.destination as? AlarmDetailTableViewController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            detailVC.alarm = AlarmController.shared.alarms[indexPath.row]
         }
     }
-    
 }

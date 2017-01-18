@@ -8,26 +8,32 @@
 
 import UIKit
 
-class SwitchTableViewCell: UITableViewCell {
+protocol SwitchTableViewCellDelegate: class {
+    func switchCellSwitchValueChanged(cell: SwitchTableViewCell)
+}
 
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var alarmSwitch: UISwitch!
+class SwitchTableViewCell: UITableViewCell {
+    
+    // MARK: Actions
+    
+    @IBAction func switchValueChanged(_ sender: Any) {
+        delegate?.switchCellSwitchValueChanged(cell: self)
+    }
+    
+    // MARK: Properties
     
     weak var delegate: SwitchTableViewCellDelegate?
     
-    @IBAction func switchValueChanged(sender: AnyObject) {
-        delegate?.switchCellSwitchValueChanged(self)
+    var alarm: Alarm? {
+        didSet {
+            guard let alarm = alarm else { return }
+            timeLabel.text = alarm.fireTimeAsString
+            nameLabel.text = alarm.name
+            alarmSwitch.isOn = alarm.enabled
+        }
     }
     
-    func updateWithAlarm(alarm: Alarm) {
-        timeLabel.text = alarm.fireTimeAsString
-        nameLabel.text = alarm.name
-        alarmSwitch.on = alarm.enabled
-    }
-    
-}
-
-protocol SwitchTableViewCellDelegate: class {
-    func switchCellSwitchValueChanged(cell: SwitchTableViewCell)
+    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var alarmSwitch: UISwitch!
 }

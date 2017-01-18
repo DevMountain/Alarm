@@ -10,61 +10,73 @@ import UIKit
 
 class AlarmDetailTableViewController: UITableViewController {
 
-    @IBOutlet weak var alarmDatePicker: UIDatePicker!
-    @IBOutlet weak var alarmTitleTextField: UITextField!
-    @IBOutlet weak var enableButton: UIButton!
-    
-    var alarm: Alarm?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let alarm = alarm {
-            updateWithAlarm(alarm)
-        } 
-        setupView()
+        updateViews()
     }
-
-    func setupView() {
-        if alarm == nil {
-            enableButton.hidden = true
+    
+    // MARK: Actions
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let title = alarmTitleTextField.text,
+            let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else { return }
+        let timeIntervalSinceMidnight = alarmDatePicker.date.timeIntervalSince(thisMorningAtMidnight)
+        if let alarm = alarm {
+            AlarmController.shared.update(alarm: alarm, fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
         } else {
-            enableButton.hidden = false
-            if alarm?.enabled == true {
-                enableButton.setTitle("Disable", forState: .Normal)
-                enableButton.setTitleColor(.whiteColor(), forState: .Normal)
-                enableButton.backgroundColor = .redColor()
+            let alarm = AlarmController.shared.addAlarm(fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
+            self.alarm = alarm
+        }
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func enableButtonTapped(_ sender: Any) {
+        guard let alarm = alarm else { return }
+        AlarmController.shared.toggleEnabled(for: alarm)
+        updateViews()
+    }
+    
+    // MARK: Private
+    
+    private func updateViews() {
+        guard let alarm = alarm,
+            let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight,
+            isViewLoaded else {
+                enableButton.isHidden = true
+                return
+        }
+        
+        alarmDatePicker.setDate(Date(timeInterval: alarm.fireTimeFromMidnight, since: thisMorningAtMidnight), animated: false)
+        alarmTitleTextField.text = alarm.name
+        
+        enableButton.isHidden = false
+        if alarm.enabled {
+            enableButton.setTitle("Disable", for: UIControlState())
+            enableButton.setTitleColor(.white, for: UIControlState())
+            enableButton.backgroundColor = .red
+        } else {
+            enableButton.setTitle("Enable", for: UIControlState())
+            enableButton.setTitleColor(.blue, for: UIControlState())
+            enableButton.backgroundColor = .gray
+        }
+        
+        self.title = alarm.name
+    }
+    
+    // MARK: Properties
+    
+    var alarm: Alarm? {
+        didSet {
+            if isViewLoaded {
+                updateViews()
             } else {
-                enableButton.setTitle("Enable", forState: .Normal)
-                enableButton.setTitleColor(.blueColor(), forState: .Normal)
-                enableButton.backgroundColor = .grayColor()
+                loadView()
+                updateViews()
             }
         }
     }
     
-    func updateWithAlarm(alarm: Alarm) {
-        guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else {return}
-        alarmDatePicker.setDate(NSDate(timeInterval: alarm.fireTimeFromMidnight, sinceDate: thisMorningAtMidnight), animated: false)
-        alarmTitleTextField.text = alarm.name
-        self.title = alarm.name
-    }
-
-    @IBAction func saveButtonTapped(sender: AnyObject) {
-        guard let title = alarmTitleTextField.text,
-            thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else {return}
-        let timeIntervalSinceMidnight = alarmDatePicker.date.timeIntervalSinceDate(thisMorningAtMidnight)
-        if let alarm = alarm {
-            AlarmController.sharedInstance.updateAlarm(alarm, fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
-        } else {
-            let alarm = AlarmController.sharedInstance.addAlarm(timeIntervalSinceMidnight, name: title)
-            self.alarm = alarm
-        }
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    @IBAction func enableButtonTapped(sender: AnyObject) {
-        guard let alarm = alarm else {return}
-        AlarmController.sharedInstance.toggleEnabled(alarm)
-        setupView()
-    }
-
+    @IBOutlet weak var alarmDatePicker: UIDatePicker!
+    @IBOutlet weak var alarmTitleTextField: UITextField!
+    @IBOutlet weak var enableButton: UIButton!
 }

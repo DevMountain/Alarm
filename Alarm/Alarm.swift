@@ -10,15 +10,26 @@ import Foundation
 
 class Alarm: NSObject {
     
-    var fireTimeFromMidnight: NSTimeInterval
+    init(fireTimeFromMidnight: TimeInterval, name: String, enabled: Bool = true, uuid: String = UUID().uuidString) {
+        self.fireTimeFromMidnight = fireTimeFromMidnight
+        self.name = name
+        self.enabled = enabled
+        self.uuid = uuid
+    }
+    
+    // MARK: Properties
+    
+    var fireTimeFromMidnight: TimeInterval
     var name: String
     var enabled: Bool
     let uuid: String
     
-    var fireDate: NSDate? {
-        guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else {return nil}
-        let fireDateFromThisMorning = NSDate(timeInterval: fireTimeFromMidnight, sinceDate: thisMorningAtMidnight)
-            return fireDateFromThisMorning
+    var fireDate: Date? {
+        guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else { return nil }
+        let fireTimeInMinutes = Int(fireTimeFromMidnight / 60)
+        let fireTimeInSeconds = TimeInterval(fireTimeInMinutes * 60)
+        let fireDateFromThisMorning = Date(timeInterval: fireTimeInSeconds, since: thisMorningAtMidnight)
+        return fireDateFromThisMorning
     }
     
     var fireTimeAsString: String {
@@ -36,14 +47,9 @@ class Alarm: NSObject {
             return String(format: "%2d:%02d AM", arguments: [hours, minutes])
         }
     }
-    
-    init(fireTimeFromMidnight: NSTimeInterval, name: String, enabled: Bool = true, uuid: String = NSUUID().UUIDString) {
-        self.fireTimeFromMidnight = fireTimeFromMidnight
-        self.name = name
-        self.enabled = enabled
-        self.uuid = uuid
-    }
 }
+
+// MARK: - Equatable
 
 func ==(lhs: Alarm, rhs: Alarm) -> Bool {
     return lhs.uuid == rhs.uuid
