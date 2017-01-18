@@ -42,7 +42,7 @@ class AlarmListTableViewController: UITableViewController, SwitchTableViewCellDe
     // MARK: SwitchTableViewCellDelegate
     
     func switchCellSwitchValueChanged(cell: SwitchTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else {return}
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
         let alarm = AlarmController.shared.alarms[indexPath.row]
 		AlarmController.shared.toggleEnabled(for: alarm)
         if alarm.enabled {

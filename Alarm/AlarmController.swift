@@ -33,7 +33,7 @@ class AlarmController {
     }
     
     func delete(alarm: Alarm) {
-        guard let index = alarms.index(of: alarm) else {return}
+        guard let index = alarms.index(of: alarm) else { return }
         alarms.remove(at: index)
         saveToPersistentStorage()
     }

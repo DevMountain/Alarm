@@ -34,7 +34,7 @@ class AlarmDetailTableViewController: UITableViewController, AlarmScheduler {
     }
     
     @IBAction func enableButtonTapped(_ sender: Any) {
-        guard let alarm = alarm else {return}
+        guard let alarm = alarm else { return }
         AlarmController.shared.toggleEnabled(for: alarm)
         if alarm.enabled {
             scheduleUserNotifications(for: alarm)
