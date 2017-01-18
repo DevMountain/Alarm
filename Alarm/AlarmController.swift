@@ -84,6 +84,7 @@ extension AlarmScheduler {
         let notificationContent = UNMutableNotificationContent()
         notificationContent.title = "Time's up!"
         notificationContent.body = "Your alarm titled \(alarm.name) is done"
+        notificationContent.sound = UNNotificationSound.default()
         
         guard let fireDate = alarm.fireDate else { return }
         let triggerDate = Calendar.current.dateComponents([.hour, .minute, .second], from: fireDate)

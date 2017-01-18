@@ -1,6 +1,6 @@
 # Alarm
 
-Students will build a simple alarm app to practice intermediate table view features, protocols, the delegate pattern, NSCoding, UserNotifications, and UIAlertControllers.
+Students will build a simple alarm app to practice intermediate table view features, protocols, the delegate pattern, NSCoding, and UserNotifications.
 
 Students who complete this project independently are able to:
 
@@ -15,11 +15,10 @@ Students who complete this project independently are able to:
 * Work with `Date` and `Calendar`
 * Add staged data to a model object controller
 
-### Part Two - NSCoding, Protocol Extensions, UserNotifications, UIAlertControllers
+### Part Two - NSCoding, Protocol Extensions, UserNotifications
 
 * Create model objects that conform to the `NSCoding` protocol
 * Create model object controllers that use `NSKeyedArchiver` and `NSKeyedUnarchiver` for data persistence
-* Present and respond to user input from `UIAlertController`s
 * Schedule and cancel `UserNotification`s 
 * Create custom protocols
 * Implement protocol functions using protocol extensions to define protcol function behavior across all conforming types
@@ -209,7 +208,7 @@ You will need to schedule local notifications each time you enable an alarm and 
 
 1. In your `AlarmController` file, but outside of the class, create a `protocol AlarmScheduler`. This protocol will need two functions: `scheduleUserNotifications(for alarm:)` and `cancelUserNotifications(for alarm: Alarm)`.
 2. Below your protocol, create a protocol extension, `extension AlarmScheduler`. In there, you can create default implementations for the two protocol functions.
-3. Your `scheduleUserNotifications(for alarm: Alarm)` function should create an instance of `UNMutableNotificationContent` and then give that instance a title and body.
+3. Your `scheduleUserNotifications(for alarm: Alarm)` function should create an instance of `UNMutableNotificationContent` and then give that instance a title and body. You can also give that instance a default sound to use when the notification goes off using `UNNotificationSound.default()`.
 4. After you create your `UNMutableNotificationContent`, create an instance of `UNCalendarNotificationTrigger`. In order to do this you will need to create `DateComponents` using the `fireDate` of your `alarm`.
     * note: Be sure to set `repeats` in the `UNCalendarNotificationTrigger` initializer to `true` so that the alarm will repeat daily at the specified time. 
 5. Now that you have `UNMutableNotificationContent` and a `UNCalendarNotificationTrigger`, you can initialize a `UNNotificationRequest` and add the request to the notification center object of your app.
@@ -219,6 +218,16 @@ You will need to schedule local notifications each time you enable an alarm and 
 7. Now go to your list view controller and detail view controller and make them conform to the `AlarmScheduler` protocol. Notice how the compiler does not make you implement the schedule and cancel functions from the protocol? This is because by adding an extension to the protocol, we have created the implementation of these functions for all classes that conform to the protocol.
 8. Go to your `AlarmListTableViewController`. In your `switchCellSwitchValueChanged` function, you will need to schedule a notification if the switch is being turned on, and cancel the notification if the switch is being turned off. You will also need to cancel the notification when you delete an alarm.
 9. Go to your `AlarmDetailTableViewController`. Your `enableButtonTapped` action will need to either schedule or cancel a notification depending on its state, and will also need to call your `AlarmController.shared.toggleEnabled(for alarm: Alarm)` function if it isn't being called already. Your `saveButtonTapped` action will need to schedule a notification when saving a brand new alarm, and will need to cancel and re-save a notification when saving existing alarms (this is because the user may have changed the time for the alarm).
+
+### UNUserNotificationCenterDelegate
+
+The last thing you need to do is set up your app to notify the user when an alarm goes off and they still have the app open. In order to do this we are going to use the `UNUserNotificationCenterDelegate` protocol.
+
+1. Go to your `AppDelegate.swift` file and have your `AppDelegate` class adopt the `UNUserNotificationCenterDelegate` protocol.
+2. Then in your `application(_:didFinishLaunchingWithOptions:)` function, set the delegate of the notification center to equal `self`.
+    * note: `UNUserNotificationCenter.current().delegate = self`
+3. Then call the delegate method `userNotificationCenter(_:willPresent:withCompletionHandler:)` and use the `completionHandler` to set your `UNNotificationPresentationOptions`.
+    * note: `completionHandler([.alert, .sound])`
 
 The app should now be finished. Run it, look for bugs, and fix anything that seems off.
 
