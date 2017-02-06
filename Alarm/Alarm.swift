@@ -49,8 +49,10 @@ class Alarm: NSObject, NSCoding {
 	let uuid: String
 	
 	var fireDate: Date? {
-		guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else {return nil}
-		let fireDateFromThisMorning = Date(timeInterval: fireTimeFromMidnight, since: thisMorningAtMidnight as Date)
+		guard let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else { return nil }
+        let fireTimeInMinutes = Int(fireTimeFromMidnight / 60)
+        let fireTimeInSeconds = TimeInterval(fireTimeInMinutes * 60)
+		let fireDateFromThisMorning = Date(timeInterval: fireTimeInSeconds, since: thisMorningAtMidnight)
 		return fireDateFromThisMorning
 	}
 	
