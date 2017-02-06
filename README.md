@@ -12,7 +12,7 @@ Students who complete this project independently are able to:
 * Create a custom `UITableViewCell`
 * Write a custom delegate protocol
 * Wire up view controllers to model object controllers
-* Work with `NSDate` and `NSDateComponents`
+* Work with `Date` and `DateComponents`
 * Add staged data to a model object controller
 
 ### Part Two - NSCoding, Protocol Extensions, UILocalNotifications, UIAlertControllers
@@ -20,9 +20,9 @@ Students who complete this project independently are able to:
 * Create model objects that conform to the `NSCoding` protocol
 * Create model object controllers that use `NSKeyedArchiver` and `NSKeyedUnarchiver` for data persistence
 * Present and respond to user input from `UIAlertController`s
-* Schedule and cancel `UILocalNotification`s 
+* Schedule and cancel `UILocalNotification`s
 * Create custom protocols
-* Implement protocol functions using protocol extensions to define protcol function behavior across all conforming types
+* Implement protocol functions using protocol extensions to define protocol function behavior across all conforming types
 
 ## Part One - Intermediate TableViews, Delegate Pattern
 
@@ -70,19 +70,19 @@ Build a static table view as the detail view for creating and editing alarms.
 
 ### Understanding Alarm Model Object
 
-You have been given a file called ```Alarm.swift``` that contains your Alarm model object. This model object makes extensive use of NSDates and NSDateComponents. Although we did not make you create this class from scratch, we expect you to understand why it was made and how each line of code works.
+You have been given a file called ```Alarm.swift``` that contains your Alarm model object. This model object makes extensive use of `Date`s and `DateComponent`s. Although we did not make you create this class from scratch, we expect you to understand why it was made and how each line of code works.
 
 Create an Alarm model class that will hold a fireTimeFromMidnight, name, an enabled property, and computed properties for fireDate and fireTimeAsString. The fireTimeFromMidnight property will store the time of day that the alarm should go off. The fireDate property will be used in part 2 of this project to schedule notifications to the user for the alarm, and the fireTimeAsString will be used to display the time of day that the alarm should go off.
 
-1. Your Alarm class will keep track of the time each day that the alarm should file, the name of the alarm, and whether or not the alarm is enabled. `fireTimeFromMidnight` stores an NSTimeInterval, which represents the number of seconds from midnight. `name` is simply a `String` representing the name, and `enabled` is a `Bool` that we will set to true if the alarm is enabled and false otherwise.
+1. Your Alarm class will keep track of the time each day that the alarm should file, the name of the alarm, and whether or not the alarm is enabled. `fireTimeFromMidnight` stores an TimeInterval, which represents the number of seconds from midnight. `name` is simply a `String` representing the name, and `enabled` is a `Bool` that we will set to true if the alarm is enabled and false otherwise.
 2. A UUID is a Universally Unique Identifier. The `uuid` on the Alarm object will be used later to schedule and cancel local notifications
-2. Add properties for `fireTimeFromMidnight` as an `NSTimeInterval`, `name` as a `String`, `enabled` as a `Bool`, and `uuid` as a `String`. A UUID is a Universally Unique Identifier. This will be used in part two of this project for identifying, scheduling, and canceling local notifications.
-4. The computed property for `fireDate` is a computed property that each day will compute the `NSDate` that should be used to schedule a local notification for that alarm.
+2. Add properties for `fireTimeFromMidnight` as an `TimeInterval`, `name` as a `String`, `enabled` as a `Bool`, and `uuid` as a `String`. A UUID is a Universally Unique Identifier. This will be used in part two of this project for identifying, scheduling, and canceling local notifications.
+4. The computed property for `fireDate` is a computed property that each day will compute the `Date` that should be used to schedule a local notification for that alarm.
 6. `fireTimeAsString` will be used to represent the time you want the alarm to fire. This is simply for the UI.
 
 ### Controller Basics
 
-Create an `AlarmController` model object controller that will manage and serve `Alarm` objects to the rest of the application. 
+Create an `AlarmController` model object controller that will manage and serve `Alarm` objects to the rest of the application.
 
 1. Create an `AlarmController.swift` file and define a new `AlarmController` class.
 2. Add an `alarms` array property with an empty array as a default value.
@@ -91,7 +91,7 @@ Create an `AlarmController` model object controller that will manage and serve `
 6. Create a `delete(alarm: Alarm)` function that removes the alarm from the `alarms` array
     * note: There is no 'removeObject' function on arrays. You will need to find the index of the object and then remove the object at that index. Refer to documentation if you need to know how to find the index of an object.
     * note: If you face a compiler error, you may need to check that you have properly implented the Equatable protocol for `Alarm` objects
-7. Create a static `shared` property which stores a shared instance. 
+7. Create a static `shared` property which stores a shared instance.
     * note: Review the syntax for creating shared instance properties
 
 ### Controller Staged Data Using a Mock Data Function
@@ -121,7 +121,7 @@ Write a protocol for the `SwitchTableViewCell` to delegate handling a toggle of 
 
 1. Add a protocol named `SwitchTableViewCellDelegate` to the top of the `SwitchTableViewCell` class file
 2. Define a `switchCellSwitchValueChanged(cell: SwitchTableViewCell)` function
-3. Add a weak, optional delegate property on the SwitchTableViewCell, require the delegate to have adopted the delegate protocol 
+3. Add a weak, optional delegate property on the SwitchTableViewCell, require the delegate to have adopted the delegate protocol
     * note: `weak var delegate: ButtonTableViewCellDelegate?`
     * note: If the compiler throws an error, it is likely because your protocol must be restricted to class types.
 4. Update the `switchValueChanged(_:)` IBAction to check if a delegate is assigned, and if so, call the delegate protocol function
@@ -163,10 +163,10 @@ Fill in the `saveButtonTapped` function on the detail view so that you can add n
 
 ### Conform to the NSCoding Protocol
 
-Make your `Alarm` object conforom to the NSCoding protocol so that we persist alarms across app launches using NSKeyedArchiver and NSKeyedUnarchiver.
+Make your `Alarm` object conform to the NSCoding protocol so that we persist alarms across app launches using NSKeyedArchiver and NSKeyedUnarchiver.
 
 1. Adopt the NSCoding protocol and add the required `init?(coder aDecoder: NSCoder)` and `encodeWithCoder(aCoder: NSCoder)` functions. You should review NSCoding in the documentation before continuing.
-2. Inside each, you will use the NSCoder provided from the initializer or function to either encode your properties using `aCoder.encodeObject(object, forKey: key)` or decode your properties using `aDecoder.decodeObjectForKey(key)`. 
+2. Inside each, you will use the NSCoder provided from the initializer or function to either encode your properties using `aCoder.encodeObject(object, forKey: key)` or decode your properties using `aDecoder.decodeObjectForKey(key)`.
     * note: It is best practice to create static internal keys to use in encoding and decoding (ex. `private let kName = "name"`)
 
 ### Persistence With NSKeyedArchiver and NSKeyedUnarchiver
@@ -187,7 +187,7 @@ static private var persistentAlarmsFilePath: String? {
 }
 ```
 
-This function accepts a string as a key and will return the path to a file in the Documents directory with that name. 
+This function accepts a string as a key and will return the path to a file in the Documents directory with that name.
 
 1. Add a private, static, computed property called `persistentAlarmsFilePath` which returns the correct path to the alarms file in the app's documents directory as described above.
 2. Write a private function called `saveToPersistentStorage()` that will save the current alarms array to a file using NSKeyedArchiver
