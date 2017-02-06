@@ -2,84 +2,106 @@
 //  AlarmDetailTableViewController.swift
 //  Alarm
 //
-//  Created by James Pacheco on 5/6/16.
-//  Copyright © 2016 DevMountain. All rights reserved.
+//  Created by Josh & Erica on 2/6/17.
+//  Copyright © 2017 DevMountain. All rights reserved.
 //
 
 import UIKit
 
-class AlarmDetailTableViewController: UITableViewController, AlarmScheduler {
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-		updateViews()
-	}
-	
-	// MARK: Actions
-	
-	@IBAction func saveButtonTapped(_ sender: AnyObject) {
-		guard let title = alarmTitleTextField.text,
-			let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight else { return }
-		let timeIntervalSinceMidnight = alarmDatePicker.date.timeIntervalSince(thisMorningAtMidnight as Date)
-		if let alarm = alarm {
-			AlarmController.shared.update(alarm: alarm, fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
-			cancelLocalNotification(for: alarm)
-			scheduleLocalNotification(for: alarm)
-		} else {
-			let alarm = AlarmController.shared.addAlarm(fireTimeFromMidnight: timeIntervalSinceMidnight, name: title)
-			self.alarm = alarm
-			scheduleLocalNotification(for: alarm)
-		}
-		let _ = navigationController?.popViewController(animated: true)
-	}
-	
-	@IBAction func enableButtonTapped(_ sender: AnyObject) {
-		guard let alarm = alarm else {return}
-		AlarmController.shared.toggleEnabled(for: alarm)
-		if alarm.enabled {
-			scheduleLocalNotification(for: alarm)
-		} else {
-			cancelLocalNotification(for: alarm)
-		}
-		updateViews()
-	}
-	
-	// MARK: Actions
-	
-	private func updateViews() {
-		guard let alarm = alarm,
-			let thisMorningAtMidnight = DateHelper.thisMorningAtMidnight,
-			isViewLoaded else {
-				enableButton.isHidden = true
-				return
-		}
-		
-		alarmDatePicker.setDate(Date(timeInterval: alarm.fireTimeFromMidnight, since: thisMorningAtMidnight), animated: false)
-		alarmTitleTextField.text = alarm.name
-		
-		enableButton.isHidden = false
-		if alarm.enabled {
-			enableButton.setTitle("Disable", for: UIControlState())
-			enableButton.setTitleColor(.white, for: UIControlState())
-			enableButton.backgroundColor = .red
-		} else {
-			enableButton.setTitle("Enable", for: UIControlState())
-			enableButton.setTitleColor(.blue, for: UIControlState())
-			enableButton.backgroundColor = .gray
-		}
-		
-		self.title = alarm.name
-	}
-	
-	// MARK: Properties
-	
-	var alarm: Alarm? {
-		didSet {
-			updateViews()
-		}
-	}
-	
-	@IBOutlet weak var alarmDatePicker: UIDatePicker!
-	@IBOutlet weak var alarmTitleTextField: UITextField!
-	@IBOutlet weak var enableButton: UIButton!
+class AlarmDetailTableViewController: UITableViewController {
+
+    
+    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var alarmTitleTextField: UITextField!
+    @IBOutlet weak var enableDisableButtonTapped: UIButton!
+    
+    @IBAction func enableButtonTapped(_ sender: Any) {
+    }
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    // MARK: - Table view data source
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 0
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return 0
+    }
+
+    /*
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+
+        // Configure the cell...
+
+        return cell
+    }
+    */
+
+    /*
+    // Override to support conditional editing of the table view.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
+    */
+
+    /*
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }    
+    }
+    */
+
+    /*
+    // Override to support rearranging the table view.
+    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+
+    }
+    */
+
+    /*
+    // Override to support conditional rearranging of the table view.
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    */
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
 }
