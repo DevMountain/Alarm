@@ -34,7 +34,7 @@ Set up a basic List-Detail view hierarchy using a UITableViewController for a Al
 3. Add an Add system bar button item to the navigation bar
 4. Add a class file `AlarmListTableViewController.swift` and assign the scene in the Storyboard
 5. Add a `UITableViewController` scene that will be used to add and view alarms
-    * note: We will use a static table view for our Alarm Detail view, static table views should be used sparingly, but they can be useful for a table view that will never change, such as a basic form. You can make a table view static by selecting the table view, going to the Attribute Inspector, and changing the Content dropdown from Dynamic Prototypes to Static Cells.
+* note: We will use a static table view for our Alarm Detail view, static table views should be used sparingly, but they can be useful for a table view that will never change, such as a basic form. You can make a table view static by selecting the table view, going to the Attribute Inspector, and changing the Content dropdown from Dynamic Prototypes to Static Cells.
 6. Add a show segue from the Add button from the first scene to the second scene.
 7. Add a show segue from the prototype cell form the first scene to the second scene.
 8. Add a class file `AlarmDetailTableViewController.swift` and assign the scene in the Storyboard
@@ -48,7 +48,7 @@ It is best practice to make table view cells reusable between apps. As a result,
 1. Add a new `SwitchTableViewCell.swift` as a subclass of UITableViewCell.
 2. Configure the prototype cell in the Alarm List Scene in `Main.storyboard` to be an instance of `SwitchTableViewCell`
 3. Design the prototype cell as shown in the screenshots: two labels, one above the other, with a switch to the right.
-    * note: Stack views are great. Think about using a horizontal stack view that has a vertical stack view and a switch inside of it. The vertical stack view will have two labels in it.
+* note: Stack views are great. Think about using a horizontal stack view that has a vertical stack view and a switch inside of it. The vertical stack view will have two labels in it.
 4. Create an IBOutlet to the custom cell file for the label named `timeLabel`.
 5. Create an IBOutlet to the custom cell file for the label named `nameLabel`.
 6. Create an IBOutlet to the custom cell file for the switch named `alarmSwitch`.
@@ -65,7 +65,7 @@ Build a static table view as the detail view for creating and editing alarms.
 5. In section 3, drag a button onto the prototype cell and add the proper constraints and title. This button will be used to enable/disable existing alarms.
 6. Create IBOutlets for the three items listed above and create an IBAction for the button titled `enableButtonTapped`.
 7. If you haven't already, add a bar button item to the right side of the navigation bar, change the System Item to Save in the Attributes Inspector, and create an IBAction called `saveButtonTapped`.
-    * You will need to add a Navigation Item to the Navigation Bar before you can add the bar button item.
+* You will need to add a Navigation Item to the Navigation Bar before you can add the bar button item.
 
 ### Understanding Alarm Model Object
 
@@ -85,10 +85,10 @@ Create an `AlarmController` model object controller that will manage and serve `
 3. Create an `addAlarm(fireTimeFromMidnight: TimeInterval, name: String)` function that creates an alarm, adds it to the `alarms` array, and returns the alarm.
 4. Create an `update(alarm: Alarm, fireTimeFromMidnight: TimeInterval, name: String)` function that updates an existing alarm's fire time and name.
 5. Create a `delete(alarm: Alarm)` function that removes the alarm from the `alarms` array
-    * note: There is no 'removeObject' function on arrays. You will need to find the index of the object and then remove the object at that index. Refer to documentation if you need to know how to find the index of an object.
-    * note: If you face a compiler error, you may need to check that the `Equatable` protocol has been properly implemented for `Alarm` objects
+* note: There is no 'removeObject' function on arrays. You will need to find the index of the object and then remove the object at that index. Refer to documentation if you need to know how to find the index of an object.
+* note: If you face a compiler error, you may need to check that the `Equatable` protocol has been properly implemented for `Alarm` objects
 6. Create a static `shared` property that stores a shared instance. 
-    * note: Review the syntax for creating shared instance properties
+* note: Review the syntax for creating shared instance properties
 
 ### Controller Staged Data Using a Mock Data Function
 
@@ -97,19 +97,22 @@ Add mock alarm data to the AlarmController. Using mock data can be very useful. 
 There are many ways to add mock data to model object controllers. We will do so using a computed property.
 
 1. Create a `mockAlarms:[Alarm]` computed property that holds a number of staged `Alarm` objects
-    * Initialize a small number of `Alarm` objects to return with varying properties
+* Initialize a small number of `Alarm` objects to return with varying properties
 2. When you want mock data, set self.alarms to self.mockAlarms in the `AlarmController` initializer. Remove it when you no longer want mock data.
-    * note: If you have not added an initializer, add one.
+* note: If you have not added an initializer, add one.
 
 ### Wire up the Alarm List Table View and implement the property observer pattern on the `SwitchTableViewCell` class.
 
 Fill in the table view data source functions required to display the view.
 
-1. Add a computed property `var alarm: Alarm?` to your `SwitchTableViewCell` class.
-2. Add a `didSet` observer that updates the labels to the time and name of the alarm, and updates the `alarmSwitch.isOn` property so that the switch reflects the proper alarm `enabled` state.
-3. On your `AlarmListTableViewController` fill in the two required `UITableViewDataSource` functions, using the `alarms` array from `AlarmController.shared`. In the `tableView(UITableView, cellForRowAt: IndexPath)` data source function you will need to cast your dequeued cell as a `SwitchTableViewCell` and set the cell's `alarm` property. Make sure you use the right alarm from the `alarms` array in `AlarmController`.
-4. Implement the `UITableViewDataSource` `tableView(_:, commit:, forRowAt:)` method to enable swipe-to-delete. Be sure to call the appropriate `AlarmController` method before deleting the row.
-    * At this point you should be able to run your project and see your table view populated with your mock alarms. You should be able to delete rows and segue to a detail view (this detail view won't actually display an alarm yet, but the segue should still occur). Also note that you can toggle the switch, but that the `enabled` property on the model object the cell is displaying isn't actually changing.
+Your custom cell should follow the 'updateViews' pattern for updating the view elements with the details of a model object. To follow this pattern, the developer adds an 'updateViews' function that checks for a model object. The function updates the view with details from the model object.
+
+1. Add a property `var alarm: Alarm?` to your `SwitchTableViewCell` class.
+2. Add an `updateViews()` function that updates the labels to the time and name of the alarm, and updates the `alarmSwitch.isOn` property so that the switch reflects the proper alarm `enabled` state.
+3. Add a `didSet` observer on the alarm property, and call the `updateViews()` function you just made in it.
+4. On your `AlarmListTableViewController` fill in the two required `UITableViewDataSource` functions, using the `alarms` array from `AlarmController.shared`. In the `tableView(UITableView, cellForRowAt: IndexPath)` data source function you will need to cast your dequeued cell as a `SwitchTableViewCell` and set the cell's `alarm` property. Make sure you use the right alarm from the `alarms` array in `AlarmController`.
+5. Implement the `UITableViewDataSource` `tableView(_:, commit:, forRowAt:)` method to enable swipe-to-delete. Be sure to call the appropriate `AlarmController` method before deleting the row.
+* At this point you should be able to run your project and see your table view populated with your mock alarms. You should be able to delete rows and segue to a detail view (this detail view won't actually display an alarm yet, but the segue should still occur). Also note that you can toggle the switch, but that the `enabled` property on the model object the cell is displaying isn't actually changing.
 
 ### Custom Protocol
 
@@ -118,8 +121,8 @@ Write a protocol for the `SwitchTableViewCell` to delegate handling a toggle of 
 1. Add a protocol named `SwitchTableViewCellDelegate` to the top of the `SwitchTableViewCell` class file
 2. Define a `switchCellSwitchValueChanged(cell: SwitchTableViewCell)` function
 3. Add a weak, optional delegate property on the SwitchTableViewCell
-    * note: `weak var delegate: ButtonTableViewCellDelegate?`
-    * note: If the compiler throws an error, it is likely because your protocol must be restricted to class types.
+* note: `weak var delegate: SwitchTableViewCellDelegate?`
+* note: If the compiler throws an error, it is likely because your protocol must be restricted to class types.
 4. Update the `switchValueChanged(_:)` IBAction to check if a delegate is assigned, and if so, call the delegate protocol function
 5. Adopt the protocol in the `AlarmListTableViewController` class
 6. Go to your `AlarmController` class and add a `toggleEnabled(for alarm: Alarm)` function that will switch the `enabled` property of the `alarm` in your function parameter to true if it is false, and false if it is true.
@@ -131,7 +134,7 @@ Create functions on the detail table view controller to display an existing alar
 
 1. Add an `alarm` property of type `Alarm?` to `AlarmDetailTableViewController`. This will hold an alarm if the view is displaying an existing alarm and will be nil if the view is being used to create a new alarm.
 2. Create a private `updateViews()` function that will populate the date picker and alarm title text field with the current alarm's date and title. This function will hide the enable button if `self.alarm` is nil, otherwise it will set the enable button to say "Disable" if the alarm in `self.alarm` is enabled and "Enable" if it is disabled. You may consider changing background color and font color properties as well to make the difference between the two button states clear.
-	*note: You must guard against the alarm being nil, or the view controller's view not yet being loaded and properly handle these cases.
+*note: You must guard against the alarm being nil, or the view controller's view not yet being loaded and properly handle these cases.
 3. Create a `didSet` property observer on the `alarm` property that checks if the view has been loaded, if it has, call `updateViews()`. If it hasn't, load the view and then call `updateViews()`.
 4. In `viewDidLoad`, call `updateViews()` to display an alarm if there is an existing alarm.
 
@@ -144,8 +147,8 @@ Fill in the `prepare(for segue: UIStoryboardSegue, sender: Any?)` function on th
 3. Get the indexPath of the selected cell from the table view.
 4. Use `indexPath.row` to get the correct alarm that was tapped from the `AlarmController.shared.alarms` array.
 5. Set the `alarm` property on the destination view controller equal to the above alarm.
-    * If the compiler presents an error when trying to do this, you either forgot to cast the destination view controller as an `AlarmDetailTableViewController` or forgot to give the `AlarmDetailTableViewController` a property title `alarm` of type `Alarm?`.
-    * At this point you should be able to run your project and see your table view populated with your mock alarms, displaying the proper switch state. You should also be able to delete rows, and segue to a detail view from a cell. This detail view should display the proper time of the alarm, the proper title, and the proper state of the enable/disable button.
+* If the compiler presents an error when trying to do this, you either forgot to cast the destination view controller as an `AlarmDetailTableViewController` or forgot to give the `AlarmDetailTableViewController` a property title `alarm` of type `Alarm?`.
+* At this point you should be able to run your project and see your table view populated with your mock alarms, displaying the proper switch state. You should also be able to delete rows, and segue to a detail view from a cell. This detail view should display the proper time of the alarm, the proper title, and the proper state of the enable/disable button.
 
 ### Final functionality on the detail view
 
@@ -154,7 +157,7 @@ Fill in the `saveButtonTapped` function on the detail view so that you can add n
 1. Use `DateHelper.thisMorningAtMidnight` to find the time interval between this morning at midnight and the `datePicker.date`.
 2. Unwrap `alarm` and if there is an alarm, call the `update(alarm:, fireTimeFromMidnight:, name:)` function from the `AlarmController` and pass it the time interval you just created and the title from the title text field.
 3. If there is no alarm, call the `addAlarm(fireTimeFromMidnight:, name:)` function to create and add a new alarm.
-    * note: You should be able to run the project and have what appears to be a fully functional app. You should be able to add, edit, delete, and enable/disable alarms. We have not yet covered how to alert the user when time is up, so that part will not work yet, but we'll get there.
+* note: You should be able to run the project and have what appears to be a fully functional app. You should be able to add, edit, delete, and enable/disable alarms. We have not yet covered how to alert the user when time is up, so that part will not work yet, but we'll get there.
 
 ## Part Two - NSCoding, Protocol Extensions, UserNotifications
 
@@ -164,7 +167,7 @@ Make your `Alarm` object conforom to the NSCoding protocol so that we can persis
 
 1. Adopt the NSCoding protocol and add the required `init?(coder aDecoder: NSCoder)` and `encode(with aCoder: NSCoder)` functions. You should review NSCoding in the documentation before continuing.
 2. Inside each, you will use the NSCoder provided from the initializer or function to either encode your properties using `encode(_:, forKey:)` or decode your properties using `decodeObject(forKey:)`. 
-    * note: It is best practice to create static internal keys to use in encoding and decoding (ex. `private let NameKey = "name"`)
+* note: It is best practice to create static internal keys to use in encoding and decoding (ex. `private let NameKey = "name"`)
 
 ### Persistence With NSKeyedArchiver and NSKeyedUnarchiver
 
@@ -178,9 +181,9 @@ It is best to separate that logic into a separate function that returns the path
 
 ```
 static private var persistentAlarmsFilePath: String? {
-    let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true)
-    guard let documentsDirectory = directories.first as NSString? else { return nil }
-    return documentsDirectory.appendingPathComponent("Alarms.plist")
+let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .allDomainsMask, true)
+guard let documentsDirectory = directories.first as NSString? else { return nil }
+return documentsDirectory.appendingPathComponent("Alarms.plist")
 }
 ```
 
@@ -188,19 +191,19 @@ This function accepts a string as a key and will return the path to a file in th
 
 1. Add a private, static, computed property called `persistentAlarmsFilePath` which returns the correct path to the alarms file in the app's documents directory as described above.
 2. Write a private function called `saveToPersistentStorage()` that will save the current alarms array to a file using NSKeyedArchiver
-    * note: `NSKeyedArchiver.archiveRootObject(self.alarms, toFile: persistentAlarmsFilePath)`
+* note: `NSKeyedArchiver.archiveRootObject(self.alarms, toFile: persistentAlarmsFilePath)`
 3. Write a function called `loadFromPersistentStorage()` that will load saved Alarm objects and set self.alarms to the results
-    * note: Capture the data using `NSKeyedUnarchiver.unarchiveObject(withFile: persistentAlarmsFilePath)`, unwrap the Optional results and set self.alarms
+* note: Capture the data using `NSKeyedUnarchiver.unarchiveObject(withFile: persistentAlarmsFilePath)`, unwrap the Optional results and set self.alarms
 4. Call the `loadFromPersistentStorage()` function when the AlarmController is initialized
 5. Call the `saveToPersistentStorage()` any time that the list of alarms is modified
-    * note: You should now be able to see that your alarms are saved between app launches.
+* note: You should now be able to see that your alarms are saved between app launches.
 
 ### Register the App for UserNotifications
 
 Register for local notifications when the app launches.
 
 1. In the `AppDelegate.swift` file import `UserNotifications`. Then in the `application(_:didFinishLaunchingWithOptions:)` function, request notification authorization on an instance of `UNUserNotificationCenter`. 
-    * note: Use `UNUserNotificationCenter.current()` to get an instance of `UNUserNotificationCenter`
+* note: Use `UNUserNotificationCenter.current()` to get an instance of `UNUserNotificationCenter`
 
 ### Schedule and Cancel Local Notifications using a Custom Protocol and Extension
 
@@ -210,11 +213,11 @@ You will need to schedule local notifications each time you enable an alarm and 
 2. Below your protocol, create a protocol extension, `extension AlarmScheduler`. In there, you can create default implementations for the two protocol functions.
 3. Your `scheduleUserNotifications(for alarm: Alarm)` function should create an instance of `UNMutableNotificationContent` and then give that instance a title and body. You can also give that instance a default sound to use when the notification goes off using `UNNotificationSound.default()`.
 4. After you create your `UNMutableNotificationContent`, create an instance of `UNCalendarNotificationTrigger`. In order to do this you will need to create `DateComponents` using the `fireDate` of your `alarm`.
-    * note: Be sure to set `repeats` in the `UNCalendarNotificationTrigger` initializer to `true` so that the alarm will repeat daily at the specified time. 
+* note: Be sure to set `repeats` in the `UNCalendarNotificationTrigger` initializer to `true` so that the alarm will repeat daily at the specified time. 
 5. Now that you have `UNMutableNotificationContent` and a `UNCalendarNotificationTrigger`, you can initialize a `UNNotificationRequest` and add the request to the notification center object of your app.
-    * note: In order to initialize a `UNNotificationRequest` you will need a unique identifier. If you want to schedule multiple requests (which we do with this app) then you need a different identifier for each request. Thus, use the `uuid` property on your `Alarm` object as the identifier.
+* note: In order to initialize a `UNNotificationRequest` you will need a unique identifier. If you want to schedule multiple requests (which we do with this app) then you need a different identifier for each request. Thus, use the `uuid` property on your `Alarm` object as the identifier.
 6. Your `cancelLocalnotification(for alarm: Alarm)` function simply needs to remove pending notification requests using the `uuid` property on the `Alarm` object you pass into the function. 
-    * note: Look at documentation for `UNUserNotificationCenter` and see if there are any functions that will help you do this.
+* note: Look at documentation for `UNUserNotificationCenter` and see if there are any functions that will help you do this.
 7. Now go to your list view controller and detail view controller and make them conform to the `AlarmScheduler` protocol. Notice how the compiler does not make you implement the schedule and cancel functions from the protocol? This is because by adding an extension to the protocol, we have created the implementation of these functions for all classes that conform to the protocol.
 8. Go to your `AlarmListTableViewController`. In your `switchCellSwitchValueChanged` function, you will need to schedule a notification if the switch is being turned on, and cancel the notification if the switch is being turned off. You will also need to cancel the notification when you delete an alarm.
 9. Go to your `AlarmDetailTableViewController`. Your `enableButtonTapped` action will need to either schedule or cancel a notification depending on its state, and will also need to call your `AlarmController.shared.toggleEnabled(for alarm: Alarm)` function if it isn't being called already. Your `saveButtonTapped` action will need to schedule a notification when saving a brand new alarm, and will need to cancel and re-save a notification when saving existing alarms (this is because the user may have changed the time for the alarm).
@@ -225,9 +228,9 @@ The last thing you need to do is set up your app to notify the user when an alar
 
 1. Go to your `AppDelegate.swift` file and have your `AppDelegate` class adopt the `UNUserNotificationCenterDelegate` protocol.
 2. Then in your `application(_:didFinishLaunchingWithOptions:)` function, set the delegate of the notification center to equal `self`.
-    * note: `UNUserNotificationCenter.current().delegate = self`
+* note: `UNUserNotificationCenter.current().delegate = self`
 3. Then call the delegate method `userNotificationCenter(_:willPresent:withCompletionHandler:)` and use the `completionHandler` to set your `UNNotificationPresentationOptions`.
-    * note: `completionHandler([.alert, .sound])`
+* note: `completionHandler([.alert, .sound])`
 
 The app should now be finished. Run it, look for bugs, and fix anything that seems off.
 
@@ -238,3 +241,4 @@ Please refer to CONTRIBUTING.md.
 ## Copyright
 
 © DevMountain LLC, 2015-2016. Unauthorized use and/or duplication of this material without express and written permission from DevMountain, LLC is strictly prohibited. Excerpts and links may be used, provided that full and clear credit is given to DevMountain with appropriate and specific direction to the original content.
+
