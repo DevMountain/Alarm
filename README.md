@@ -121,7 +121,7 @@ Write a protocol for the `SwitchTableViewCell` to delegate handling a toggle of 
 1. Add a protocol named `SwitchTableViewCellDelegate` to the top of the `SwitchTableViewCell` class file
 2. Define a `switchCellSwitchValueChanged(cell: SwitchTableViewCell)` function
 3. Add a weak, optional delegate property on the SwitchTableViewCell
-* note: `weak var delegate: ButtonTableViewCellDelegate?`
+* note: `weak var delegate: SwitchTableViewCellDelegate?`
 * note: If the compiler throws an error, it is likely because your protocol must be restricted to class types.
 4. Update the `switchValueChanged(_:)` IBAction to check if a delegate is assigned, and if so, call the delegate protocol function
 5. Adopt the protocol in the `AlarmListTableViewController` class
