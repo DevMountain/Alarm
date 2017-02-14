@@ -20,17 +20,22 @@ class SwitchTableViewCell: UITableViewCell {
 		delegate?.switchCellSwitchValueChanged(cell: self)
 	}
 	
+    
+    func updateViews() {
+        guard let alarm = alarm else { return }
+        timeLabel.text = alarm.fireTimeAsString
+        nameLabel.text = alarm.name
+        alarmSwitch.isOn = alarm.enabled
+    }
+    
 	// MARK: Properties
 	
 	weak var delegate: SwitchTableViewCellDelegate?
 	
 	var alarm: Alarm? {
 		didSet {
-			guard let alarm = alarm else { return }
-			timeLabel.text = alarm.fireTimeAsString
-			nameLabel.text = alarm.name
-			alarmSwitch.isOn = alarm.enabled
-		}
+            updateViews()
+        }
 	}
 	
 	@IBOutlet weak var timeLabel: UILabel!
