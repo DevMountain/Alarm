@@ -77,9 +77,6 @@ class AlarmDetailTableViewController: UITableViewController, AlarmScheduler {
         didSet {
             if isViewLoaded {
                 updateViews()
-            } else {
-                loadView()
-                updateViews()
             }
         }
     }

@@ -121,7 +121,7 @@ Write a protocol for the `SwitchTableViewCell` to delegate handling a toggle of 
 1. Add a protocol named `SwitchTableViewCellDelegate` to the top of the `SwitchTableViewCell` class file
 2. Define a `switchCellSwitchValueChanged(cell: SwitchTableViewCell)` function
 3. Add a weak, optional delegate property on the SwitchTableViewCell
-* note: `weak var delegate: SwitchTableViewCellDelegate?`
+* note: `weak var delegate: ButtonTableViewCellDelegate?`
 * note: If the compiler throws an error, it is likely because your protocol must be restricted to class types.
 4. Update the `switchValueChanged(_:)` IBAction to check if a delegate is assigned, and if so, call the delegate protocol function
 5. Adopt the protocol in the `AlarmListTableViewController` class
@@ -135,8 +135,8 @@ Create functions on the detail table view controller to display an existing alar
 1. Add an `alarm` property of type `Alarm?` to `AlarmDetailTableViewController`. This will hold an alarm if the view is displaying an existing alarm and will be nil if the view is being used to create a new alarm.
 2. Create a private `updateViews()` function that will populate the date picker and alarm title text field with the current alarm's date and title. This function will hide the enable button if `self.alarm` is nil, otherwise it will set the enable button to say "Disable" if the alarm in `self.alarm` is enabled and "Enable" if it is disabled. You may consider changing background color and font color properties as well to make the difference between the two button states clear.
 *note: You must guard against the alarm being nil, or the view controller's view not yet being loaded and properly handle these cases.
-3. Create a `didSet` property observer on the `alarm` property that checks if the view has been loaded, if it has, call `updateViews()`. If it hasn't, load the view and then call `updateViews()`.
-4. In `viewDidLoad`, call `updateViews()` to display an alarm if there is an existing alarm.
+3. Create a `didSet` property observer on the `alarm` property that checks if the view has been loaded, if it has, call `updateViews()`.
+4. In `viewDidLoad`, call `updateViews()` to display an alarm if there is an existing alarm. This will ensure that if the view hasn't been loaded by the time the `didSet` of the `alarm` in the previous step, the views will still be setup by the time the user is shown this view controller.
 
 ### Prepare For Segue
 
