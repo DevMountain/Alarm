@@ -19,7 +19,7 @@ Students who complete this project independently are able to:
 
 * Create model objects that conform to the `NSCoding` protocol
 * Create model object controllers that use `NSKeyedArchiver` and `NSKeyedUnarchiver` for data persistence
-* Schedule and cancel `UserNotification`s 
+* Schedule and cancel `UserNotification`s
 * Create custom protocols
 * Implement protocol functions using protocol extensions to define protcol function behavior across all conforming types
 
@@ -43,7 +43,7 @@ Set up a basic List-Detail view hierarchy using a UITableViewController for a Al
 
 Build a custom table view cell to display alarms. The cell should display the alarm time, the alarm name, and have a switch that will toggle whether or not the alarm is enabled.
 
-It is best practice to make table view cells reusable between apps. As a result, you will build a `SwitchTableViewCell` rather than an `AlarmTableViewCell` that can be reused any time you want a cell with a switch. 
+It is best practice to make table view cells reusable between apps. As a result, you will build a `SwitchTableViewCell` rather than an `AlarmTableViewCell` that can be reused any time you want a cell with a switch.
 
 1. Add a new `SwitchTableViewCell.swift` as a subclass of UITableViewCell.
 2. Configure the prototype cell in the Alarm List Scene in `Main.storyboard` to be an instance of `SwitchTableViewCell`
@@ -78,7 +78,7 @@ You have been given a file called `Alarm.swift` that contains your Alarm model o
 
 ### Controller Basics
 
-Create an `AlarmController` model object controller that will manage and serve `Alarm` objects to the rest of the application. 
+Create an `AlarmController` model object controller that will manage and serve `Alarm` objects to the rest of the application.
 
 1. Create an `AlarmController.swift` file and define a new `AlarmController` class.
 2. Add an `alarms` array property with an empty array as a default value.
@@ -87,7 +87,7 @@ Create an `AlarmController` model object controller that will manage and serve `
 5. Create a `delete(alarm: Alarm)` function that removes the alarm from the `alarms` array
 * note: There is no 'removeObject' function on arrays. You will need to find the index of the object and then remove the object at that index. Refer to documentation if you need to know how to find the index of an object.
 * note: If you face a compiler error, you may need to check that the `Equatable` protocol has been properly implemented for `Alarm` objects
-6. Create a static `shared` property that stores a shared instance. 
+6. Create a static `shared` property that stores a shared instance.
 * note: Review the syntax for creating shared instance properties
 
 ### Controller Staged Data Using a Mock Data Function
@@ -118,15 +118,16 @@ Your custom cell should follow the 'updateViews' pattern for updating the view e
 
 Write a protocol for the `SwitchTableViewCell` to delegate handling a toggle of the switch to the `AlarmListTableViewController`, adopt the protocol, and use the delegate function to mark the alarm as enabled or disabled and reload the cell.
 
-1. Add a protocol named `SwitchTableViewCellDelegate` to the top of the `SwitchTableViewCell` class file
+1. Create a custom protocol named `SwitchTableViewCellDelegate` to the top of the `SwitchTableViewCell` class file
 2. Define a `switchCellSwitchValueChanged(cell: SwitchTableViewCell)` function
 3. Add a weak, optional delegate property on the SwitchTableViewCell
-* note: `weak var delegate: ButtonTableViewCellDelegate?`
+* note: `weak var delegate: SwitchTableViewCellDelegate?`
 * note: If the compiler throws an error, it is likely because your protocol must be restricted to class types.
 4. Update the `switchValueChanged(_:)` IBAction to check if a delegate is assigned, and if so, call the delegate protocol function
-5. Adopt the protocol in the `AlarmListTableViewController` class
-6. Go to your `AlarmController` class and add a `toggleEnabled(for alarm: Alarm)` function that will switch the `enabled` property of the `alarm` in your function parameter to true if it is false, and false if it is true.
-7. Go back to your `AlarmListTableViewController` class and implement the `switchCellSwitchValueChanged(cell:)` delegate function to capture the alarm, toggle the alarm's enabled property using the function you just made in `AlarmController`, and reload the table view.
+5. Adopt and conform to the protocol in the `AlarmListTableViewController` class.
+6. Set the table view controller as the delegate of each cell.
+7. Go to your `AlarmController` class and add a `toggleEnabled(for alarm: Alarm)` function that will switch the `enabled` property of the `alarm` in your function parameter to true if it is false, and false if it is true.
+8. Go back to your `AlarmListTableViewController` class and implement the `switchCellSwitchValueChanged(cell:)` delegate function to capture the alarm, toggle the alarm's enabled property using the function you just made in `AlarmController`, and reload the table view.
 
 ### Wire up the Alarm Detail Table View
 
@@ -166,7 +167,7 @@ Fill in the `saveButtonTapped` function on the detail view so that you can add n
 Make your `Alarm` object conforom to the NSCoding protocol so that we can persist alarms across app launches using NSKeyedArchiver and NSKeyedUnarchiver.
 
 1. Adopt the NSCoding protocol and add the required `init?(coder aDecoder: NSCoder)` and `encode(with aCoder: NSCoder)` functions. You should review NSCoding in the documentation before continuing.
-2. Inside each, you will use the NSCoder provided from the initializer or function to either encode your properties using `encode(_:, forKey:)` or decode your properties using `decodeObject(forKey:)`. 
+2. Inside each, you will use the NSCoder provided from the initializer or function to either encode your properties using `encode(_:, forKey:)` or decode your properties using `decodeObject(forKey:)`.
 * note: It is best practice to create static internal keys to use in encoding and decoding (ex. `private let NameKey = "name"`)
 
 ### Persistence With NSKeyedArchiver and NSKeyedUnarchiver
@@ -187,7 +188,7 @@ return documentsDirectory.appendingPathComponent("Alarms.plist")
 }
 ```
 
-This function accepts a string as a key and will return the path to a file in the Documents directory with that name. 
+This function accepts a string as a key and will return the path to a file in the Documents directory with that name.
 
 1. Add a private, static, computed property called `persistentAlarmsFilePath` which returns the correct path to the alarms file in the app's documents directory as described above.
 2. Write a private function called `saveToPersistentStorage()` that will save the current alarms array to a file using NSKeyedArchiver
@@ -202,7 +203,7 @@ This function accepts a string as a key and will return the path to a file in th
 
 Register for local notifications when the app launches.
 
-1. In the `AppDelegate.swift` file import `UserNotifications`. Then in the `application(_:didFinishLaunchingWithOptions:)` function, request notification authorization on an instance of `UNUserNotificationCenter`. 
+1. In the `AppDelegate.swift` file import `UserNotifications`. Then in the `application(_:didFinishLaunchingWithOptions:)` function, request notification authorization on an instance of `UNUserNotificationCenter`.
 * note: Use `UNUserNotificationCenter.current()` to get an instance of `UNUserNotificationCenter`
 
 ### Schedule and Cancel Local Notifications using a Custom Protocol and Extension
@@ -213,10 +214,10 @@ You will need to schedule local notifications each time you enable an alarm and 
 2. Below your protocol, create a protocol extension, `extension AlarmScheduler`. In there, you can create default implementations for the two protocol functions.
 3. Your `scheduleUserNotifications(for alarm: Alarm)` function should create an instance of `UNMutableNotificationContent` and then give that instance a title and body. You can also give that instance a default sound to use when the notification goes off using `UNNotificationSound.default()`.
 4. After you create your `UNMutableNotificationContent`, create an instance of `UNCalendarNotificationTrigger`. In order to do this you will need to create `DateComponents` using the `fireDate` of your `alarm`.
-* note: Be sure to set `repeats` in the `UNCalendarNotificationTrigger` initializer to `true` so that the alarm will repeat daily at the specified time. 
+* note: Be sure to set `repeats` in the `UNCalendarNotificationTrigger` initializer to `true` so that the alarm will repeat daily at the specified time.
 5. Now that you have `UNMutableNotificationContent` and a `UNCalendarNotificationTrigger`, you can initialize a `UNNotificationRequest` and add the request to the notification center object of your app.
 * note: In order to initialize a `UNNotificationRequest` you will need a unique identifier. If you want to schedule multiple requests (which we do with this app) then you need a different identifier for each request. Thus, use the `uuid` property on your `Alarm` object as the identifier.
-6. Your `cancelLocalnotification(for alarm: Alarm)` function simply needs to remove pending notification requests using the `uuid` property on the `Alarm` object you pass into the function. 
+6. Your `cancelLocalnotification(for alarm: Alarm)` function simply needs to remove pending notification requests using the `uuid` property on the `Alarm` object you pass into the function.
 * note: Look at documentation for `UNUserNotificationCenter` and see if there are any functions that will help you do this.
 7. Now go to your list view controller and detail view controller and make them conform to the `AlarmScheduler` protocol. Notice how the compiler does not make you implement the schedule and cancel functions from the protocol? This is because by adding an extension to the protocol, we have created the implementation of these functions for all classes that conform to the protocol.
 8. Go to your `AlarmListTableViewController`. In your `switchCellSwitchValueChanged` function, you will need to schedule a notification if the switch is being turned on, and cancel the notification if the switch is being turned off. You will also need to cancel the notification when you delete an alarm.
@@ -241,4 +242,3 @@ Please refer to CONTRIBUTING.md.
 ## Copyright
 
 © DevMountain LLC, 2015-2016. Unauthorized use and/or duplication of this material without express and written permission from DevMountain, LLC is strictly prohibited. Excerpts and links may be used, provided that full and clear credit is given to DevMountain with appropriate and specific direction to the original content.
-
