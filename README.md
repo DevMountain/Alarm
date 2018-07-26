@@ -230,7 +230,7 @@ The last thing you need to do is set up your app to notify the user when an alar
 1. Go to your `AppDelegate.swift` file and have your `AppDelegate` class adopt the `UNUserNotificationCenterDelegate` protocol.
 2. Then in your `application(_:didFinishLaunchingWithOptions:)` function, set the delegate of the notification center to equal `self`.
 * note: `UNUserNotificationCenter.current().delegate = self`
-3. Then call the delegate method `userNotificationCenter(_:willPresent:withCompletionHandler:)` and use the `completionHandler` to set your `UNNotificationPresentationOptions`.
+3. Then implement the delegate method `userNotificationCenter(_:willPresent:withCompletionHandler:)` and use the `completionHandler` to set your `UNNotificationPresentationOptions`.
 * note: `completionHandler([.alert, .sound])`
 
 The app should now be finished. Run it, look for bugs, and fix anything that seems off.
