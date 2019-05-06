@@ -2,6 +2,7 @@
 
 Students will build a simple alarm app to practice intermediate table view features, protocols, the delegate pattern, Codable, and UserNotifications.
 
+
 Students who complete this project independently are able to:
 
 ### Part One - Intermediate TableViews, Delegate Pattern
