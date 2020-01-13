@@ -73,7 +73,7 @@ Build a static table view as the detail view for creating and editing alarms.
 Create an `Alarm.swift` which will contain our Alarm model object.  Alarms should be able to represent a name, whether they are enabled (on or off), a unique identifier,  a time when the alarm will go off, and a string representation of that time.
 
 1. Add a property called `fireDate` which stores a `Date` representing the time the alarm will go off , a property called `name` of type `String`, and a property called `enabled` of type`Bool` that we will set to true if the alarm is enabled and false otherwise.
-2. Add a property called uuid of type `String`.  A UUID is a Universally Unique Identifier. The `uuid` on the Alarm object will be used later to schedule and cancel local notifications
+2. Add a property called uuid of type `String`.  Give the uuid property a default value of `UUID().uuidString`. A UUID is a Universally Unique Identifier. The `uuid` on the Alarm object will be used later to schedule and cancel local notifications
 4. Add a computed property called `fireTimeAsString` which will return a `String` representation of the time you want the alarm to fire. This is simply for the UI.
 *note: Use Apple's DateFormater class to return a String from your existing  `fireDate` property.
 *Please Read: https://developer.apple.com/documentation/foundation/dateformatter
