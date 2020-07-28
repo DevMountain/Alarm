@@ -142,8 +142,7 @@ Create functions on the detail table view controller to display an existing alar
 2. Create a private `updateViews()` function that will populate the date picker and alarm title text field with the current alarm's date and title. This function will set the enable button to say "On" if the alarm in `self.alarm` is enabled and "Off" if it is disabled. You may consider changing background color and font color properties as well to make the difference between the two button states clear. 
 *note: As the initial `alarm` property will be nil (when we are creating a new alarm), you will need to use the isAlarmOn property you created earlier to set up the button's UI initially.
 *note: You must guard against the alarm being nil, or the view controller's view not yet being loaded and properly handle these cases.
-3. Create a `didSet` property observer on the `alarm` property and call `updateViews()`.
-*note: It is safest to call `loadViewsIfNeeded()` in any `didSet` before `updateViews()` to avoid any race conditions.
+3. Call `updateViews()` in `viewDidLoad()`.
 
 ### Prepare For Segue
 
