@@ -14,13 +14,14 @@ class AlarmDetailTableViewController: UITableViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var enableButton: UIButton!
     
-    var alarm: Alarm? {
-        didSet {
-            loadViewIfNeeded()
-            updateViews()
-        }
-    }
+    var alarm: Alarm?
+    
     var alarmIsOn: Bool = true
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateViews()
+    }
 
     @IBAction func enableButtonTapped(_ sender: UIButton) {
         alarmIsOn.toggle()
