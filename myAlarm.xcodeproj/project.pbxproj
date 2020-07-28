@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5627CB4724CF681800917FD0 /* AlarmListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5627CB4624CF681800917FD0 /* AlarmListTableViewController.swift */; };
+		5627CB4924CF694600917FD0 /* AlarmDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5627CB4824CF694600917FD0 /* AlarmDetailTableViewController.swift */; };
+		5627CB4B24CF69B500917FD0 /* SwitchDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5627CB4A24CF69B500917FD0 /* SwitchDetailTableViewCell.swift */; };
+		5627CB4D24CF715600917FD0 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5627CB4C24CF715600917FD0 /* Alarm.swift */; };
+		5627CB4F24CF7DAF00917FD0 /* AlarmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5627CB4E24CF7DAF00917FD0 /* AlarmController.swift */; };
 		F7C2038C2131AD3400C3FC77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C2038B2131AD3400C3FC77 /* AppDelegate.swift */; };
 		F7C203912131AD3400C3FC77 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7C2038F2131AD3400C3FC77 /* Main.storyboard */; };
 		F7C203932131AD3400C3FC77 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7C203922131AD3400C3FC77 /* Assets.xcassets */; };
@@ -14,6 +19,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5627CB4624CF681800917FD0 /* AlarmListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlarmListTableViewController.swift; path = "Settings/Settings/Settings/Views/Custom Views/AlarmListTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5627CB4824CF694600917FD0 /* AlarmDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlarmDetailTableViewController.swift; path = "Settings/Settings/Settings/Views/Custom Views/AlarmDetailTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		5627CB4A24CF69B500917FD0 /* SwitchDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchDetailTableViewCell.swift; sourceTree = "<group>"; };
+		5627CB4C24CF715600917FD0 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Alarm.swift; path = myAlarm/Resources/Alarm.swift; sourceTree = SOURCE_ROOT; };
+		5627CB4E24CF7DAF00917FD0 /* AlarmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlarmController.swift; path = myAlarm/Resources/AlarmController.swift; sourceTree = SOURCE_ROOT; };
 		F7C203882131AD3400C3FC77 /* myAlarm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myAlarm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7C2038B2131AD3400C3FC77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F7C203902131AD3400C3FC77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -63,6 +73,7 @@
 		F7C203A72131B1D500C3FC77 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5627CB4C24CF715600917FD0 /* Alarm.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -70,6 +81,9 @@
 		F7C203A82131B1DB00C3FC77 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5627CB4624CF681800917FD0 /* AlarmListTableViewController.swift */,
+				5627CB4824CF694600917FD0 /* AlarmDetailTableViewController.swift */,
+				5627CB4E24CF7DAF00917FD0 /* AlarmController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -77,6 +91,7 @@
 		F7C203A92131B1E300C3FC77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5627CB4A24CF69B500917FD0 /* SwitchDetailTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -164,7 +179,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5627CB4924CF694600917FD0 /* AlarmDetailTableViewController.swift in Sources */,
 				F7C2038C2131AD3400C3FC77 /* AppDelegate.swift in Sources */,
+				5627CB4D24CF715600917FD0 /* Alarm.swift in Sources */,
+				5627CB4B24CF69B500917FD0 /* SwitchDetailTableViewCell.swift in Sources */,
+				5627CB4724CF681800917FD0 /* AlarmListTableViewController.swift in Sources */,
+				5627CB4F24CF7DAF00917FD0 /* AlarmController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
